@@ -45,7 +45,9 @@ RUN mkdir -p /opt
 # Installing Android NDK
 RUN wget -q -O "/opt/android-ndk-$ANDROID_NDK_VERSION-linux-x86-64.zip" "https://dl.google.com/android/repository/android-ndk-$ANDROID_NDK_VERSION-linux-x86_64.zip" && cd "/opt" && unzip "/opt/android-ndk-$ANDROID_NDK_VERSION-linux-x86-64.zip" && rm -f "/opt/android-ndk-$ANDROID_NDK_VERSION-linux-x86-64.zip"
 RUN mv "/opt/android-ndk-$ANDROID_NDK_VERSION" "/opt/android-ndk-linux"
-ENV NDK "/opt/android-ndk-$ANDROID_NDK_VERSION"
+ENV NDK "/opt/android-ndk-linux"
+RUN /opt/android-ndk-linux/build/tools/make_standalone_toolchain.py --arch arm --api 27 --install-dir /opt/android-ndk-linux/android-toolchain-27
+ENV PATH "$PATH:$NDK/android-toolchain-27/bin"
 
 # Installing Android SDK
 RUN wget -q -O "/opt/tools-linux.zip" "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_SDK_VERSION.zip"
